@@ -1,4 +1,4 @@
-package com.felix.bakingapp.request;
+package com.felix.bakingapp;
 
 import com.felix.bakingapp.model.Recipe;
 
@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 public interface GetDataService {
 
-    @GET("/baking.json")
+    @GET("topher/2017/May/59121517_baking/baking.json")
     Call<List<Recipe>> getAllRecipes();
 }

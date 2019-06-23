@@ -3,18 +3,18 @@ package com.felix.bakingapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class Recipe implements Parcelable {
 
-    private String id;
+    private int id;
     private String name;
-    private  String[] ingredients;
-    private String[] steps;
-    private String servings;
+    private List<Ingredient> ingredients;
+    private List<Step> steps;
+    private int servings;
     private String image;
 
-    public Recipe(String id, String name, String[] ingredients, String[] steps, String servings, String image) {
+    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -27,11 +27,11 @@ public class Recipe implements Parcelable {
     }
 
     protected Recipe(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
         name = in.readString();
-        ingredients = in.createStringArray();
-        steps = in.createStringArray();
-        servings = in.readString();
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
+        servings = in.readInt();
         image = in.readString();
     }
 
@@ -47,11 +47,11 @@ public class Recipe implements Parcelable {
         }
     };
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,27 +63,27 @@ public class Recipe implements Parcelable {
         this.name = name;
     }
 
-    public String[] getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String[] ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public String[] getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(String[] steps) {
+    public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
-    public String getServings() {
+    public int getServings() {
         return servings;
     }
 
-    public void setServings(String servings) {
+    public void setServings(int servings) {
         this.servings = servings;
     }
 
@@ -102,23 +102,11 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeString(name);
-        dest.writeStringArray(ingredients);
-        dest.writeStringArray(steps);
-        dest.writeString(servings);
+        dest.writeTypedList(ingredients);
+        dest.writeTypedList(steps);
+        dest.writeInt(servings);
         dest.writeString(image);
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", ingredients=" + Arrays.toString(ingredients) +
-                ", steps=" + Arrays.toString(steps) +
-                ", servings='" + servings + '\'' +
-                ", image='" + image + '\'' +
-                '}';
     }
 }
