@@ -1,4 +1,4 @@
-package com.felix.bakingapp;
+package com.felix.bakingapp.request;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

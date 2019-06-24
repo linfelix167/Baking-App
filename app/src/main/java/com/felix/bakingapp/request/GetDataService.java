@@ -1,4 +1,4 @@
-package com.felix.bakingapp;
+package com.felix.bakingapp.request;
 
 import com.felix.bakingapp.model.Recipe;
 

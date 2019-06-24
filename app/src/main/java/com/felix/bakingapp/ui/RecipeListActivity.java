@@ -7,9 +7,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.felix.bakingapp.GetDataService;
+import com.felix.bakingapp.request.GetDataService;
 import com.felix.bakingapp.R;
-import com.felix.bakingapp.RetrofitClientInstance;
+import com.felix.bakingapp.request.RetrofitClientInstance;
 import com.felix.bakingapp.adapter.RecipeAdapter;
 import com.felix.bakingapp.model.Recipe;
 
@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class RecipeListActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private RecipeAdapter mAdapter;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recipe_list);
 
         setupProgressDialog();
         parseJSONData();
@@ -49,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeListActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setupProgressDialog() {
-        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog = new ProgressDialog(RecipeListActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
     }
