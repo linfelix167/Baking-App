@@ -1,12 +1,12 @@
 package com.felix.bakingapp.ui;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 
 import com.felix.bakingapp.R;
 import com.felix.bakingapp.adapter.RecipeStepAdapter;
@@ -23,6 +23,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
     private boolean mTwoPane;
     private RecyclerView mRecyclerView;
     private RecipeStepAdapter mAdapter;
+    private Button mIngredientButton;
     private List<Step> mSteps;
     private List<Ingredient> mIngredients;
 
@@ -38,6 +39,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Recipe recipe = intent.getExtras().getParcelable(EXTRA_RECIPE);
         mSteps = recipe.getSteps();
+        mIngredients = recipe.getIngredients();
 
         if (findViewById(R.id.recipe_detail_container) != null) {
             mTwoPane = true;
@@ -52,5 +54,9 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void setupIngredientButton() {
+
     }
 }
