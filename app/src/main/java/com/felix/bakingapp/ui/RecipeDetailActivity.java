@@ -7,8 +7,6 @@ import com.felix.bakingapp.R;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    private boolean mTwoPane;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
