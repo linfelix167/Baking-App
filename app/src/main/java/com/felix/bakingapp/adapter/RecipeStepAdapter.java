@@ -9,17 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.felix.bakingapp.R;
-import com.felix.bakingapp.model.Recipe;
 import com.felix.bakingapp.model.Step;
 
 import java.util.List;
 
-public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.RecipeDetailViewHolder> {
+public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.RecipeDetailViewHolder> {
 
     private Context mContext;
     private List<Step> mSteps;
 
-    public RecipeDetailAdapter(Context mContext, List<Step> mSteps) {
+    public RecipeStepAdapter(Context mContext, List<Step> mSteps) {
         this.mContext = mContext;
         this.mSteps = mSteps;
     }

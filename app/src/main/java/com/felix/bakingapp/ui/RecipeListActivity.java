@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class RecipeListActivity extends AppCompatActivity implements RecipeAdapter.OnItemClickListener {
 
-    public static final String EXTRA_RECIPE= "recipe";
+    public static final String EXTRA_RECIPE = "recipe";
 
     private RecyclerView mRecyclerView;
     private RecipeAdapter mAdapter;
@@ -79,7 +79,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
         mRecyclerView = findViewById(R.id.recyclerView);
         mAdapter = new RecipeAdapter(this, recipeList);
         mAdapter.setOnItemClickListener(this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
