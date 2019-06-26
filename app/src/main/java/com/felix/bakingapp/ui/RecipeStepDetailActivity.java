@@ -21,7 +21,9 @@ import java.util.List;
 
 import static com.felix.bakingapp.ui.RecipeListActivity.EXTRA_RECIPE;
 
-public class RecipeStepDetailActivity extends AppCompatActivity {
+public class RecipeStepDetailActivity extends AppCompatActivity implements RecipeStepAdapter.OnItemClickListener {
+
+    public static final String EXTRA_STEP = "step";
 
     private boolean mTwoPane;
     private RecyclerView mRecyclerView;
@@ -57,6 +59,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
     private void generateStepList(List<Step> steps) {
         mRecyclerView = findViewById(R.id.recipe_detail_recyclerview);
         mAdapter = new RecipeStepAdapter(this, steps);
+        mAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -90,5 +93,13 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         builder.setTitle("Ingredients");
         builder.setMessage(mIngredientDescription);
         builder.create().show();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent stepDetailIntent = new Intent(this, RecipeDetailActivity.class);
+        Step step = mSteps.get(position);
+        stepDetailIntent.putExtra(EXTRA_STEP, step);
+        startActivity(stepDetailIntent);
     }
 }

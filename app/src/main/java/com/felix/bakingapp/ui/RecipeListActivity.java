@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import com.felix.bakingapp.model.Step;
 import com.felix.bakingapp.request.GetDataService;
 import com.felix.bakingapp.R;
 import com.felix.bakingapp.request.RetrofitClientInstance;
