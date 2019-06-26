@@ -79,7 +79,12 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
         mRecyclerView = findViewById(R.id.recyclerView);
         mAdapter = new RecipeAdapter(this, recipeList);
         mAdapter.setOnItemClickListener(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        GridLayoutManager layoutManager = null;
+        if (mRecyclerView.getTag().equals("phone")) {
+            layoutManager = new GridLayoutManager(this, 1);
+        } else if (mRecyclerView.getTag().equals("tablet")) {
+            layoutManager = new GridLayoutManager(this, 3);
+        }
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
