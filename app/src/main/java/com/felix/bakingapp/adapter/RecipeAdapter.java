@@ -12,7 +12,6 @@ import com.felix.bakingapp.R;
 import com.felix.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +19,15 @@ import butterknife.ButterKnife;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private ArrayList<Recipe> recipeList;
+    private OnRecipeClickListener mListener;
+
+    public interface OnRecipeClickListener {
+        void onRecipeClick(Recipe recipe);
+    }
+
+    public void setOnRecipeClickListener(OnRecipeClickListener listener) {
+        mListener = listener;
+    }
 
     public RecipeAdapter(ArrayList<Recipe> recipeList) {
         this.recipeList = recipeList;
@@ -28,7 +36,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
         return new RecipeViewHolder(view);
     }
 
@@ -48,13 +56,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.recipe_title)
+        @BindView(R.id.item_title)
         TextView mRecipeTitle;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(v -> {
+                if (mListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.onRecipeClick(recipeList.get(position));
+                    }
+                }
+            });
         }
     }
 }

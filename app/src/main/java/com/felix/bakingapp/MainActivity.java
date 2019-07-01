@@ -1,6 +1,7 @@
 package com.felix.bakingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -26,9 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.OnRecipeClickListener {
 
-    private static final String RECIPE_KEY = "recipe";
+    public static final String RECIPE_KEY = "recipe";
 
     private ArrayList<Recipe> recipeList;
     private boolean isTablet = false;
@@ -118,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(gridLayoutManager);
         }
 
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new RecipeAdapter(recipeList);
+        mAdapter.setOnRecipeClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -126,5 +129,12 @@ public class MainActivity extends AppCompatActivity {
         boolean isTablet = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
         boolean isMobile = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (isTablet || isMobile);
+    }
+
+    @Override
+    public void onRecipeClick(Recipe recipe) {
+        Intent intent = new Intent(this, RecipeActivity.class);
+        intent.putExtra(RECIPE_KEY, recipe);
+        startActivity(intent);
     }
 }
