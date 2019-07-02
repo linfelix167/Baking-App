@@ -9,13 +9,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
+
         android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
+        android:contentDescription="@string/ingredients"
+        android:text="@string/ingredients"
         android:textColor="#ffffff"
-        android:textSize="24sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/appwidget_ingredients_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appwidget_text"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+        android:text="@string/ingredients_list_is_empty"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

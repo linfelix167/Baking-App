@@ -6,14 +6,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RemoteViews;
 
 import com.felix.bakingapp.adapter.StepAdapter;
+import com.felix.bakingapp.fragment.StepFragment;
 import com.felix.bakingapp.model.Ingredient;
 import com.felix.bakingapp.model.Recipe;
 import com.felix.bakingapp.model.Step;
+import com.felix.bakingapp.widget.RecipeWidget;
 
 import java.util.ArrayList;
 
@@ -28,6 +35,7 @@ public class RecipeActivity extends AppCompatActivity {
     private StepAdapter mAdapter;
     private ArrayList<Step> stepList;
     private ArrayList<Ingredient> ingredientList;
+    private Recipe recipe;
 
     @BindView(R.id.recycler_view_step)
     RecyclerView mRecyclerView;
@@ -47,15 +55,18 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         getIncomingIntent();
-        setupStepRecyclerView();
     }
 
     private void getIncomingIntent() {
         Intent intent = getIntent();
-        Recipe recipe = intent.getParcelableExtra(RECIPE_KEY);
-        stepList = recipe.getSteps();
-        ingredientList = recipe.getIngredients();
-        toolbar.setTitle(recipe.getName());
+        if (intent.hasExtra(StepFragment.ARG_ITEM_ID)) {
+            recipe = intent.getParcelableExtra(StepFragment.ARG_ITEM_ID);
+            stepList = recipe.getSteps();
+            ingredientList = recipe.getIngredients();
+            saveIngredients();
+            getSupportActionBar().setTitle(recipe.getName());
+            setupStepRecyclerView();
+        }
     }
 
     private void setupStepRecyclerView() {
@@ -85,5 +96,24 @@ public class RecipeActivity extends AppCompatActivity {
         }
 
         return sb.toString().trim();
+    }
+
+    private void saveIngredients() {
+        String widgetText = setupIngredientDescription(ingredientList);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.saved_file_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.key_string), widgetText);
+        editor.putString(getString(R.string.recipe_key_string), recipe.getName());
+        editor.apply();
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.recipe_widget);
+        ComponentName thisWidget = new ComponentName(this, RecipeWidget.class);
+
+        remoteViews.setTextViewText(R.id.appwidget_ingredients_list, widgetText);
+        remoteViews.setTextViewText(R.id.appwidget_text, recipe.getName());
+
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 }

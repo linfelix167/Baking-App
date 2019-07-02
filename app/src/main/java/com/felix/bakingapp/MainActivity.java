@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.felix.bakingapp.adapter.RecipeAdapter;
+import com.felix.bakingapp.fragment.StepFragment;
 import com.felix.bakingapp.model.Recipe;
 import com.felix.bakingapp.request.RecipeApi;
 import com.felix.bakingapp.request.RecipeService;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.OnR
     @Override
     public void onRecipeClick(Recipe recipe) {
         Intent intent = new Intent(this, RecipeActivity.class);
-        intent.putExtra(RECIPE_KEY, recipe);
+        intent.putExtra(StepFragment.ARG_ITEM_ID, recipe);
         startActivity(intent);
     }
 }
