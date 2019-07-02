@@ -1,5 +1,8 @@
 package com.felix.bakingapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.felix.bakingapp.R;
+import com.felix.bakingapp.RecipeActivity;
+import com.felix.bakingapp.StepActivity;
+import com.felix.bakingapp.fragment.StepFragment;
 import com.felix.bakingapp.model.Step;
 
 import java.util.ArrayList;
@@ -19,18 +25,15 @@ import butterknife.ButterKnife;
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
     private ArrayList<Step> stepList;
-    private OnStepClickListener mListener;
+    private boolean mTwoPane;
+    private RecipeActivity mParentActivity;
 
-    public interface OnStepClickListener {
-        void onStepClick(Step step);
-    }
-
-    public void setOnStepClickListener(OnStepClickListener listener) {
-        mListener = listener;
-    }
-
-    public StepAdapter(ArrayList<Step> stepList) {
-        this.stepList = stepList;
+    public StepAdapter(RecipeActivity parent,
+                       ArrayList<Step> steps,
+                       boolean twoPane) {
+        mParentActivity = parent;
+        stepList = steps;
+        mTwoPane = twoPane;
     }
 
     @NonNull
@@ -63,11 +66,27 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            itemView.setOnClickListener(v -> {
-                if (mListener != null) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        mListener.onStepClick(stepList.get(position));
+                        if (mTwoPane) {
+                            Bundle arguments = new Bundle();
+                            arguments.putParcelableArrayList(StepFragment.ARG_ITEM_ID, stepList);
+                            arguments.putInt("id", position);
+                            StepFragment fragment = new StepFragment();
+                            fragment.setArguments(arguments);
+                            mParentActivity.getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.step_detail_container, fragment)
+                                    .commit();
+                        } else {
+                            Context context = view.getContext();
+                            Intent intent = new Intent(context, StepActivity.class);
+                            intent.putParcelableArrayListExtra(StepFragment.ARG_ITEM_ID, stepList);
+                            intent.putExtra("id", position);
+                            context.startActivity(intent);
+                        }
                     }
                 }
             });
