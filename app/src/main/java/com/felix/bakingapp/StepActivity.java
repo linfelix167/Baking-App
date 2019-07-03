@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.felix.bakingapp.fragment.StepFragment;
 import com.felix.bakingapp.model.Step;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
 
 public class StepActivity extends AppCompatActivity {
 
