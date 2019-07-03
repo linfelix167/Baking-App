@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.StepFragment">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/exo_player_height" />
+        android:layout_height="@dimen/exo_player_height"
+        app:fastforward_increment="1000"
+        app:rewind_increment="1000"
+        app:controller_layout_id="@layout/custom_control"/>
 
     <TextView
         android:id="@+id/step_desc"

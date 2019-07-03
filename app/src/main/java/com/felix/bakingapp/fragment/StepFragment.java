@@ -49,6 +49,7 @@ public class StepFragment extends Fragment implements ExoPlayer.EventListener {
     private Step step;
     private SimpleExoPlayer mExoPlayer;
     private long mPlayerPosition;
+    private Uri mUri;
 
     @BindView(R.id.player_view)
     SimpleExoPlayerView mSimpleExoPlayerView;
@@ -83,7 +84,8 @@ public class StepFragment extends Fragment implements ExoPlayer.EventListener {
 
         if (step != null) {
             mStepTextView.setText(step.getShortDescription());
-            setupPlayer(Uri.parse(step.getVideoURL()));
+            mUri = Uri.parse(step.getVideoURL());
+            setupPlayer(mUri);
         }
 
         return view;
@@ -92,16 +94,44 @@ public class StepFragment extends Fragment implements ExoPlayer.EventListener {
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     @Override
     public void onPause() {
-        super.onPause();
         if (mExoPlayer != null) {
             mPlayerPosition = mExoPlayer.getCurrentPosition();
         }
-        releasePlayer();
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            setupPlayer(mUri);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || mExoPlayer == null) {
+            setupPlayer(mUri);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mExoPlayer != null) {
+            mPlayerPosition = mExoPlayer.getCurrentPosition();
+        }
+        super.onDestroyView();
     }
 
     @Override
@@ -189,7 +219,8 @@ public class StepFragment extends Fragment implements ExoPlayer.EventListener {
             mStepTextView.setText(step.getShortDescription());
             releasePlayer();
             mPlayerPosition = 0;
-            setupPlayer(Uri.parse(step.getVideoURL()));
+            mUri = Uri.parse(step.getVideoURL());
+            setupPlayer(mUri);
         }
     }
 

@@ -15,7 +15,7 @@
         android:contentDescription="@string/ingredients"
         android:text="@string/ingredients"
         android:textColor="#ffffff"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="20sp"
         android:textStyle="bold|italic" />
 
     <TextView
